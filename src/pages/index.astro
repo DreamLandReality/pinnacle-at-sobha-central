@@ -1,0 +1,33 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Hero from '../components/Hero.astro';
+import Introduction from '../components/Introduction.astro';
+import MediaShowcase from '../components/MediaShowcase.astro';
+import PriceUnlock from '../components/PriceUnlock.astro';
+import Brochure from '../components/Brochure.astro';
+import Amenities from '../components/Amenities.astro';
+import Testimonials from '../components/Testimonials.astro';
+import ContactForm from '../components/ContactForm.astro';
+import { getSectionData, isSectionEnabled } from '../lib/manifest-loader';
+
+const seoData = getSectionData('seo');
+const heroData = getSectionData('hero');
+const introData = getSectionData('introduction');
+const mediaShowcaseData = getSectionData('media-showcase');
+const priceUnlockData = getSectionData('price-unlock');
+const brochureData = getSectionData('brochure');
+const amenitiesData = getSectionData('amenities');
+const testimonialsData = getSectionData('testimonials');
+const contactFormData = getSectionData('contact-form');
+---
+
+<BaseLayout title={seoData.title} seo={seoData} transparentNav={true}>
+  {isSectionEnabled('hero') && <Hero data={heroData} />}
+  {isSectionEnabled('introduction') && <Introduction data={introData} />}
+  {isSectionEnabled('media-showcase') && <MediaShowcase data={mediaShowcaseData} />}
+  {isSectionEnabled('price-unlock') && <PriceUnlock data={priceUnlockData} />}
+  {isSectionEnabled('brochure') && <Brochure data={brochureData} />}
+  {isSectionEnabled('amenities') && <Amenities data={amenitiesData} />}
+  {isSectionEnabled('testimonials') && <Testimonials data={testimonialsData} />}
+  {isSectionEnabled('contact-form') && <ContactForm data={contactFormData} />}
+</BaseLayout>

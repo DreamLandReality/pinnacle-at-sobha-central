@@ -1,0 +1,47 @@
+---
+import { getSectionData } from '../lib/manifest-loader';
+
+const heroData = getSectionData('hero');
+const imgSrc = (path: string) => path?.startsWith('http') ? path : `/${path}`;
+
+export interface Props {
+  title: string;
+  seo: {
+    description?: string;
+    image?: string;
+    language?: string;
+  };
+}
+
+const { title, seo } = Astro.props;
+---
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  <title>{title}</title>
+  <meta name="description" content={seo.description} />
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content={title} />
+  <meta property="og:description" content={seo.description} />
+  {seo.image && <meta property="og:image" content={seo.image} />}
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content={title} />
+  <meta name="twitter:description" content={seo.description} />
+  {seo.image && <meta name="twitter:image" content={seo.image} />}
+
+  <!-- Hero image preload -->
+  {heroData.backgroundImage && (
+    <link rel="preload" as="image" href={imgSrc(heroData.backgroundImage)} fetchpriority="high" />
+  )}
+
+  <!-- Font preload -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet" />
+</head>
